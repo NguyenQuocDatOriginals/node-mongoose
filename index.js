@@ -15,12 +15,28 @@ connect.then((db) => {
     })
     .then((nation) => {
         console.log(nation);
-
-        return Nations.find({}).exec();
+        
+        return Nations.findByIdAndUpdate(nation._id, {
+            $set: { description: 'WC 2022'}
+        },{
+            new: true
+        })
+        .exec();
     })
-    .then((nations) => {
-        console.log(nations);
-
+    .then((nation) => {
+        console.log(nation);
+        
+        nation.comments.push({
+            rating: 5,
+            comment: 'Please give me beer!',
+            author: 'Hacker'
+        });
+        
+        return nation.save();
+    })
+    .then((nation) => {
+        console.log(nation);
+        
         return Nations.deleteOne({});
     })
     .then(() => {
@@ -28,6 +44,6 @@ connect.then((db) => {
     })
     .catch((err) => {
         console.log(err);
-    });
+    });        
         
 });
