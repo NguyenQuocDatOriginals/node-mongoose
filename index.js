@@ -9,25 +9,25 @@ connect.then((db) => {
 
     console.log('Connected correctly to server');
 
-    var newNation = Nations({
+    Nations.create({
         name: 'Qatar',
+        description: 'Home Team'
+    })
+    .then((nation) => {
+        console.log(nation);
+
+        return Nations.find({}).exec();
+    })
+    .then((nations) => {
+        console.log(nations);
+
+        return Nations.deleteOne({});
+    })
+    .then(() => {
+        return mongoose.connection.close();
+    })
+    .catch((err) => {
+        console.log(err);
     });
-
-    newNation.save()
-        .then((nation) => {
-            console.log(nation);
-return Nations.find({}).exec();
-        })
-        .then((nations) => {
-            console.log(nations);
-
-            return Nations.deleteMany({});
-        })
-        .then(() => {
-            return mongoose.connection.close();
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-
+        
 });
